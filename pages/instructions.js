@@ -9,7 +9,7 @@ export default function Instructions() {
       </p>
 
       <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm mb-4">
-        https://bookwithmaya.vercel.app/complete_automated_booking?name=&#123;name&#125;&health_conditions=&#123;health_conditions&#125;
+        https://bookwithmaya.vercel.app/complete_automated_booking/preview?name=&#123;name&#125;&health_conditions=&#123;health_conditions&#125;
       </pre>
 
       <p className="mb-4">
