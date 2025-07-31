@@ -7,8 +7,15 @@ export async function middleware(request) {
   // Log all visits including bots directly to database
   const logVisit = async () => {
     try {
-      // Get the original request URL
-      const fullUrl = request.url.replace(request.nextUrl.origin, '');
+      // Try to get the original path from the URL
+      const url = new URL(request.url);
+      const fullUrl = url.pathname + url.search;
+      
+      // Debug logging
+      console.log('Request URL:', request.url);
+      console.log('NextURL pathname:', request.nextUrl.pathname);
+      console.log('URL pathname:', url.pathname);
+      console.log('Full URL to log:', fullUrl);
       
       await sql`
         INSERT INTO therapy_appointments (path, user_agent, ip_address, request_method)
@@ -25,7 +32,6 @@ export async function middleware(request) {
     }
   };
 
-  // Fire and forget - don't wait for response
   logVisit();
 
   return NextResponse.next();
@@ -33,13 +39,6 @@ export async function middleware(request) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
     '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 }; 
