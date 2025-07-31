@@ -1,4 +1,8 @@
-export default function Availability() {
+import { useRouter } from 'next/router';
+
+export default function AvailabilityPage() {
+  const { query } = useRouter();
+
   const dates = [
     { date: '8/4', fullDate: 'August 4, 2025' },
     { date: '8/5', fullDate: 'August 5, 2025' },
@@ -11,6 +15,7 @@ export default function Availability() {
   return (
     <div className="min-h-screen bg-[#f6f8f9] text-[#1D3557] font-sans p-6">
       <div className="max-w-6xl mx-auto">
+
         {/* Header */}
         <header className="text-center mb-8">
           <h1 className="text-4xl font-bold font-serif mb-2">Dr. Maya Ellison, M.D.</h1>
@@ -21,10 +26,10 @@ export default function Availability() {
           <div className="bg-white rounded-2xl shadow-md p-6">
             <h2 className="text-2xl font-semibold mb-6 text-center">Available Times by Date</h2>
             <div className="space-y-6">
-              {dates.map((dateInfo) => (
-                <div key={dateInfo.date} className="border border-gray-200 rounded-lg p-4">
+              {dates.map(({ date, fullDate }) => (
+                <div key={date} className="border border-gray-200 rounded-lg p-4">
                   <h3 className="text-xl font-semibold text-[#1D3557] mb-3 text-center">
-                    {dateInfo.fullDate}
+                    {fullDate}
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                     {timeSlots.map((time) => (
@@ -63,6 +68,7 @@ export default function Availability() {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );
