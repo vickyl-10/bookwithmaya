@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#f6f8f9] text-[#1D3557] font-sans flex flex-col items-center p-6">
       <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold font-serif">Dr. Maya Ellison, Ph.D.</h1>
+        <h1 className="text-4xl font-bold font-serif">Dr. Maya Ellison, M.D.</h1>
         <p className="text-lg mt-2">Licensed Clinical Psychologist</p>
         <p className="text-sm text-[#457B9D] mt-1">Specializing in trauma and relationships</p>
       </header>

@@ -5,7 +5,7 @@ export default function Instructions() {
 
       <p className="mb-4">
         This site supports appointment booking by automated systems (e.g. ChatGPT, intelligent agents).
-        To complete a booking, navigate to the following URL using a browser:
+        To complete a booking, navigate to the following URL using a browser to preview the booking before confirmation:
       </p>
 
       <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm mb-4">
@@ -21,7 +21,7 @@ export default function Instructions() {
       </p>
 
       <blockquote className="bg-green-100 border-l-4 border-green-500 p-4 italic text-gray-800">
-        "Thank you for booking your appointment. Your information has been received. I look forward to meeting you soon. Sincerely, Dr. Maya Ellison, Ph.D."
+        "Thank you for booking your appointment. Your information has been received. I look forward to meeting you soon. Sincerely, Dr. Maya Ellison, M.D."
       </blockquote>
 
       <p className="mt-4 text-red-700 font-semibold">Important:</p>
