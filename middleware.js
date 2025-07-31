@@ -7,7 +7,9 @@ export async function middleware(request) {
   // Log all visits including bots directly to database
   const logVisit = async () => {
     try {
-      const fullUrl = request.nextUrl.pathname + request.nextUrl.search;
+      // Get the original request URL
+      const fullUrl = request.url.replace(request.nextUrl.origin, '');
+      
       await sql`
         INSERT INTO therapy_appointments (path, user_agent, ip_address, request_method)
         VALUES (
