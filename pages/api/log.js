@@ -2,29 +2,19 @@ import { neon } from '@neondatabase/serverless';
 
 const sql = neon(process.env.DATABASE_URL);
 
-// Create the therapy_appointments table if it doesn't exist in your existing database
-export async function ensureTableExists() {
+// Create the therapy_appointments table with all required columns
+async function ensureTableExists() {
   try {
-    // First, try to create the table if it doesn't exist
     await sql`
       CREATE TABLE IF NOT EXISTS therapy_appointments (
         id SERIAL PRIMARY KEY,
         path VARCHAR(255) NOT NULL,
         timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         user_agent TEXT,
-        ip_address TEXT
+        ip_address TEXT,
+        request_method VARCHAR(10)
       )
     `;
-    
-    // Check if ip_address column exists, if not add it
-    try {
-      await sql`SELECT ip_address FROM therapy_appointments LIMIT 1`;
-    } catch (error) {
-      // Column doesn't exist, add it
-      await sql`ALTER TABLE therapy_appointments ADD COLUMN ip_address TEXT`;
-      console.log('Added ip_address column to existing table');
-    }
-    
     console.log('Therapy appointments table ready');
   } catch (error) {
     console.error('Error ensuring table exists:', error);
@@ -32,44 +22,51 @@ export async function ensureTableExists() {
 }
 
 // Log a path visit
-export async function logPathVisit(path, userAgent, ipAddress) {
+async function logPathVisit(path, userAgent, ipAddress, requestMethod) {
   try {
-    // Ensure table exists before inserting
     await ensureTableExists();
     
     const result = await sql`
-      INSERT INTO therapy_appointments (path, user_agent, ip_address)
-      VALUES (${path}, ${userAgent}, ${ipAddress})
+      INSERT INTO therapy_appointments (path, user_agent, ip_address, request_method)
+      VALUES (${path}, ${userAgent}, ${ipAddress}, ${requestMethod})
       RETURNING id, timestamp
     `;
     return result[0];
   } catch (error) {
     console.error('Error logging path visit:', error);
-    // Don't throw to avoid breaking the page load
     return null;
   }
 }
 
 // Default export function required by Next.js API routes
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  const { method } = req;
+  const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const userAgent = req.headers['user-agent'] || 'Unknown';
 
-  try {
-    const { path, query, userAgent } = req.body;
-    const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-
-    const result = await logPathVisit(path, userAgent, ipAddress);
+  // Handle both GET and POST requests
+  if (method === 'GET') {
+    const path = req.url || '/';
+    const result = await logPathVisit(path, userAgent, ipAddress, method);
     
     if (result) {
-      console.log('Successfully logged visit:', result);
+      console.log('Successfully logged GET visit:', result);
       res.status(200).json({ success: true, id: result.id });
     } else {
       res.status(500).json({ error: 'Failed to log visit' });
     }
-  } catch (error) {
-    console.error('API handler error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+  } else if (method === 'POST') {
+    const { path, userAgent: bodyUserAgent } = req.body;
+    const finalUserAgent = bodyUserAgent || userAgent;
+    const result = await logPathVisit(path, finalUserAgent, ipAddress, method);
+    
+    if (result) {
+      console.log('Successfully logged POST visit:', result);
+      res.status(200).json({ success: true, id: result.id });
+    } else {
+      res.status(500).json({ error: 'Failed to log visit' });
+    }
+  } else {
+    res.status(405).json({ error: 'Method not allowed' });
   }
 }
