@@ -24,7 +24,7 @@ export default function MyApp({ Component, pageProps }) {
     logVisit(router.asPath);
     router.events.on('routeChangeComplete', logVisit);
     return () => router.events.off('routeChangeComplete', logVisit);
-  }, [router]);
+  }, []);
 
   return <Component {...pageProps} />;
 }
