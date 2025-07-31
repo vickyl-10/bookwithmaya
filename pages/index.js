@@ -11,9 +11,25 @@ export default function Home() {
 
       <BookingForm />
 
-      <a href="/instructions" className="mt-6 text-[#457B9D] underline hover:text-[#1D3557]">
-        For Automated Booking Systems
-      </a>
+      <div className="mt-6 text-center">
+        <div className="mb-4">
+          <a
+            href="/availability"
+            className="block text-[#457B9D] underline hover:text-[#1D3557]"
+          >
+            View Available Appointment Times
+          </a>
+        </div>
+
+        <div>
+          <a
+            href="/instructions"
+            className="block text-[#457B9D] underline hover:text-[#1D3557]"
+          >
+            For Automated Booking Systems
+          </a>
+        </div>
+      </div>
     </div>
   );
 }

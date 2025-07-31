@@ -2,19 +2,32 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 export default function BookingConfirmation() {
-  const { query } = useRouter();
+  const { query, asPath } = useRouter();
   const [name, setName] = useState('');
   const [healthConditions, setHealthConditions] = useState('');
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [countdown, setCountdown] = useState(60);
 
   useEffect(() => {
     if (query.name) setName(query.name);
     if (query.health_conditions) setHealthConditions(query.health_conditions);
   }, [query]);
 
-  const handleConfirmBooking = () => {
-    setIsConfirmed(true);
-  };
+  useEffect(() => {
+    if (!isConfirmed) {
+      const timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            setIsConfirmed(true);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [isConfirmed]);
 
   return (
     <div className="min-h-screen bg-white text-[#1D3557] font-sans flex items-center justify-center p-6">
@@ -24,7 +37,7 @@ export default function BookingConfirmation() {
           Thank you{ name ? `, ${name}` : '' } for drafting your booking request.
           Please review the information below and confirm your booking.
 
-          If the information is correct, please confirm your booking by clicking the button below.
+          If the information is correct, your booking will confirm after {countdown} seconds.
           
         </p>
         {healthConditions && (
@@ -34,12 +47,12 @@ export default function BookingConfirmation() {
         )}
         
         {!isConfirmed ? (
-          <button
-            onClick={handleConfirmBooking}
-            className="mt-6 bg-[#A8DADC] text-[#1D3557] font-semibold px-8 py-3 rounded-md hover:bg-[#90C3C8] transition-colors duration-200 shadow-md"
-          >
-            Confirm Booking
-          </button>
+          <div className="mt-6 space-y-4">
+            <div className="p-4 bg-blue-50 border border-blue-200 rounded-md">
+              <p className="text-blue-800 font-semibold">Booking will confirm in {countdown} seconds</p>
+              <p className="text-blue-600 text-sm mt-1">To cancel, navigate to: <code className="bg-blue-100 px-2 py-1 rounded">{asPath}/cancel</code></p>
+            </div>
+          </div>
         ) : (
           <div className="mt-6 p-4 bg-green-100 border border-green-400 rounded-md">
             <p className="text-green-800 font-semibold">✅ Booking Confirmed!</p>
