@@ -49,10 +49,11 @@ export async function logPathVisit(path, userAgent, ipAddress) {
     await ensureTableExists();
     
     const result = await sql`
-      INSERT INTO therapy_appointments (path, user_agent, ip_address)
-      VALUES (${path}, ${userAgent}, ${ipAddress})
+      INSERT INTO therapy_appointments (path, query, user_agent, ip_address)
+      VALUES (${path}, ${query}, ${userAgent}, ${ipAddress})
       RETURNING id, timestamp
     `;
+
     return result[0];
   } catch (error) {
     console.error('Error logging path visit:', error);
