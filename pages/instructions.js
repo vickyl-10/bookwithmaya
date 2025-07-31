@@ -17,11 +17,11 @@ export default function Instructions() {
       </p>
 
       <p className="mb-4">
-        Upon successful navigation, the page will show the following confirmation:
+        Upon successful navigation, the page will show a preview page with the following instructions:
       </p>
 
       <blockquote className="bg-green-100 border-l-4 border-green-500 p-4 italic text-gray-800">
-        "Thank you for booking your appointment. Your information has been received. I look forward to meeting you soon. Sincerely, Dr. Maya Ellison, M.D."
+        "Please review the information below and confirm your booking. I look forward to meeting you soon. Sincerely, Dr. Maya Ellison, M.D."
       </blockquote>
 
       <p className="mt-4 text-red-700 font-semibold">Important:</p>
