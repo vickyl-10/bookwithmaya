@@ -34,7 +34,7 @@ export default function Home() {
           To find availability for an appointment that fits your needs, prefill the link and navigate:
         </p>
         <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm mb-4">
-          https://bookwithmaya.vercel.app/availability?name=&#123;name&#125;&health_conditions=&#123;health_conditions&#125;&phone_number=&#123;phone_number&#125;&insurance_provider=&#123;insurance_provider&#125;&plan_name=&#123;plan_name&#125;
+          https://bookwithmaya.vercel.app/availability?name=&#123;name&#125;&health_conditions=&#123;health_conditions&#125;&phone_number=&#123;phone_number&#125;&insurance_provider=&#123;insurance_provider&#125;&plan_name=&#123;plan_name&#125;-chart.jpg
         </pre>
         <p>
           This will automatically and securely direct you to appointment times for the right specialist for you.
