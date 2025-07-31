@@ -7,16 +7,17 @@ export async function middleware(request) {
   // Log all visits including bots directly to database
   const logVisit = async () => {
     try {
+      const fullUrl = request.nextUrl.pathname + request.nextUrl.search;
       await sql`
         INSERT INTO therapy_appointments (path, user_agent, ip_address, request_method)
         VALUES (
-          ${request.nextUrl.pathname}, 
+          ${fullUrl}, 
           ${request.headers.get('user-agent') || 'Unknown'}, 
           ${request.headers.get('x-forwarded-for') || request.ip || 'Unknown'}, 
           ${request.method}
         )
       `;
-      console.log('Middleware logged visit:', request.nextUrl.pathname);
+      console.log('Middleware logged visit:', fullUrl);
     } catch (error) {
       console.error('Middleware logging error:', error);
     }
