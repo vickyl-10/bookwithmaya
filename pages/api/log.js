@@ -37,7 +37,7 @@ export async function ensureTableExists() {
         ip_address TEXT
       )
     `;
-    console.log('Name generator logs table ready');
+    console.log('Therapy app generator logs table ready');
   } catch (error) {
     console.error('Error ensuring table exists:', error);
   }
@@ -49,7 +49,7 @@ export async function logPathVisit(path, userAgent, ipAddress) {
     await ensureTableExists();
     
     const result = await sql`
-      INSERT INTO name_gen_logs (path, user_agent, ip_address)
+      INSERT INTO therapy_appointments (path, user_agent, ip_address)
       VALUES (${path}, ${userAgent}, ${ipAddress})
       RETURNING id, timestamp
     `;
