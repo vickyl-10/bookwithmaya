@@ -16,7 +16,7 @@ export default function BookingConfirmation() {
           I look forward to meeting you soon.
         </p>
         <p className="mt-6 italic">Sincerely,</p>
-        <p className="font-semibold">Dr. Maya Ellison, Ph.D.</p>
+        <p className="font-semibold">Dr. Maya Ellison, M.D.</p>
       </div>
     </div>
   );

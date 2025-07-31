@@ -4,7 +4,7 @@ export default function Instructions() {
       <h1 className="text-3xl font-bold mb-4">Automated Booking Instructions</h1>
 
       <p className="mb-4">
-        This site supports appointment booking by automated systems (e.g. ChatGPT, intelligent agents).
+        This site supports appointment booking by automated systems.
         To complete a booking, navigate to the following URL using a browser to preview the booking before confirmation:
       </p>
 
